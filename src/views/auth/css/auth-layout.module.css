@@ -3,7 +3,7 @@
   background: #EBEBEB url("@/assets/images/background.jpg") no-repeat;
   background-size: contain;
 }
-.container .box {
+.container .box-test {
   width: 500px;
   height: 350px;
   box-sizing: border-box;

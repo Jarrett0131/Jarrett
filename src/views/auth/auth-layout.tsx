@@ -3,7 +3,7 @@ import styles from './css/auth-layout.module.less'
 
 const AuthLayout: FC<PropsWithChildren> = ({children}) => {
     return <div className={styles.container}>
-        <div className={styles.box}> 
+        <div className={styles.boxTest}> 
             {children}
         </div>
     </div>   
