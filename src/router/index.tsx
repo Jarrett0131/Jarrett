@@ -2,9 +2,10 @@ import {createBrowserRouter} from 'react-router-dom';
 
 //导入路由组件
 import Root from '@/views/root/root.tsx';
-import Login from '@/views/auth/login.tsx';
+import Login,{action as loginAction}from '@/views/auth/login.tsx';
 import Reg,{action as regAction}from '@/views/auth/reg.tsx';
 import AuthLayout from '@/views/auth/auth-layout.tsx';
+
 
 const router = createBrowserRouter([
     {path :'/reg', 
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
             <Reg/>
         </AuthLayout>)},
     {path :'/login', 
+    action: loginAction,
         element: (
         <AuthLayout>
             <Login/>

@@ -70,7 +70,6 @@ export const action = async ({request}:ActionFunctionArgs) => {
     const fd  =await request.formData();
     //优化try-catch：使用await-to-js库来处理异步请求的错误
     const [err] = await to(regApi(fd));
-
     if(err) return null;
     
 
