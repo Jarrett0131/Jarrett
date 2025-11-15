@@ -61,8 +61,6 @@ export const action = async({request}:ActionFunctionArgs) =>{
     const [err ,res] = await to(loginApi(fd));
     
     if(err)  return null;
-
-    console.log(res);
     //将token存储到zustand全局状态管理中
     setToken(res.token);
     message.success(res.message);
