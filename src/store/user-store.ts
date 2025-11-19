@@ -56,3 +56,10 @@ export const initUser = async() => {
     });
     
 }
+
+// 派生用户的基本信息
+export const selectUserInfo = (state: UserStoreType) => ({
+  id: state.user.id,
+  nickname: state.user.nickname,
+  email: state.user.email
+})

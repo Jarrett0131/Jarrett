@@ -1,9 +1,9 @@
 import type {FC} from 'react';
 
-const UserPassword: FC = () => {  
+const UserAvatar: FC = () => {  
   return (
-     <div >UserPassword</div>
+     <div >UserAvatar</div>
   );
 };
 
-export default UserPassword;
+export default UserAvatar;

@@ -43,3 +43,15 @@ type MenuItem = {
     children?: MenuItem[]
 
 }
+
+
+//用户信息表单类型
+type UserInfoForm = Pick<User, 'id' | 'email' | 'nickname'>
+
+
+//修改密码表单类型
+type ResetPwdForm = {
+  old_pwd: string
+  new_pwd: string
+  re_pwd: string
+}
