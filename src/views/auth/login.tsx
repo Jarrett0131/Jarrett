@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input,Space,message} from 'antd';
-import { Link,useSearchParams,useFetcher,redirect} from 'react-router-dom';    
+import { Link,useSearchParams,useFetcher} from 'react-router-dom';    
 import type {ActionFunctionArgs} from 'react-router-dom';
 import { loginApi } from '@/api/auth-api.ts';
 import to from 'await-to-js';
@@ -65,7 +65,8 @@ export const action = async({request}:ActionFunctionArgs) =>{
     setToken(res.token);
     message.success(res.message);
     //登录成功后跳转到首页
-    return redirect('/');
+    //return redirect('/');
+    return null;
 }
 
 

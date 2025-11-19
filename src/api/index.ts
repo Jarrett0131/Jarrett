@@ -3,6 +3,8 @@ import type { AxiosRequestTransformer,AxiosError} from 'axios'
 import config from '../config.json'
 import qs from 'qs'
 import {message} from 'antd'
+import useAppStore from '@/store/app-store'
+import {resetAllStore} from '@/store/resetters.ts'
 
 const instance = axios.create({
     baseURL: config.baseURL,
@@ -27,7 +29,13 @@ instance.interceptors.request.use(
             config.transformRequest = requestTrasnformer;
         }
 
-    config.transformRequest = requestTrasnformer;
+        //为请求头按需挂载token
+        const token = useAppStore.getState().token ;
+        if(url?.includes('/my/') && token){
+            config.headers.Authorization = token;
+        }
+
+
     return config;
   }, function (error) {
     // Do something with request error
@@ -35,7 +43,8 @@ instance.interceptors.request.use(
   });
 
 // 响应拦截器
-instance.interceptors.response.use(function (response) {
+instance.interceptors.response.use(
+    function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     if(response.data && response.data.message){
@@ -55,7 +64,14 @@ instance.interceptors.response.use(function (response) {
     //若包含则以包含的message为准，否则使用通用的错误提示
     if(error.response && error.response.data){
         //有响应体的情况
-        message.error(error.response.data.message );//弹出错误消息
+        if(error.response.status === 401){
+            if(useAppStore.getState().token){
+                //401状态码，表示token无效或过期，需清除token
+                message.error('登录已过期，请重新登录！'); 
+                resetAllStore();//重置所有store数据
+            }
+        }else{message.error(error.response.data.message );}
+        
         return Promise.reject(error.response.data);
     }else{
         //没有响应体的情况

@@ -1,0 +1,29 @@
+.container {
+  min-height: 100vh;
+}
+.container .box-logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container .box-logo .logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+.container .box-logo .logo-text {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+.container .content {
+  margin: 1px 0 1px 0;
+  padding: 24px;
+  background-color: #fff;
+}
+.container .footer {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
