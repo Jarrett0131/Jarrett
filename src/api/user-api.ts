@@ -8,3 +8,6 @@ export const getMenuApi = () => axios.get<null,BaseResponse<MenuItem[]>>('/my/me
 
 // 更新用户的基本资料
 export const updateUserInfoApi = (data: FormData) => axios.put<null, BaseResponse>('/my/userinfo', data) ;
+
+// 修改密码的接口
+export const updatePwdApi = (data: FormData) => axios.patch<null, BaseResponse>('/my/updatepwd', data) ;
