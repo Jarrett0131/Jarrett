@@ -45,13 +45,24 @@ type MenuItem = {
 }
 
 
-//用户信息表单类型
+//用户信息表单TS类型
 type UserInfoForm = Pick<User, 'id' | 'email' | 'nickname'>
 
 
-//修改密码表单类型
+//修改密码表单TS类型
 type ResetPwdForm = {
   old_pwd: string
   new_pwd: string
   re_pwd: string
 }
+
+
+//文章分类TS类型
+type CateItem = {
+  readonly id: number
+  cate_name: string
+  cate_alias: string
+}
+
+
+type ArtCateAddForm = Omit<CateItem, 'id'>
