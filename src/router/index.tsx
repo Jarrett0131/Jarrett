@@ -7,7 +7,7 @@ import Reg,{action as regAction}from '@/views/auth/reg.tsx';
 import AuthLayout from '@/views/auth/auth-layout.tsx';
 import AuthRoot from '@/views/auth/auth-root';
 import Home from '@/views/home/home.tsx';
-import UserAvatar from '@/views/user/user-avatar';
+import UserAvatar, { action as userAvatarAction } from '@/views/user/user-avatar';
 import UserInfo ,{ action as userInfoAction }from '@/views/user/user-info';
 import UserPassword, { action as userPwdAction } from '@/views/user/user-password'
 import ArticleAdd from '@/views/article/article-add';
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
             //索引路由
             {index: true,element : <Home/>},
             {path : 'home',element : <Home/>},
-            {path : 'user-avatar',element : <UserAvatar/>},
+            {path : 'user-avatar',element : <UserAvatar/>,action: userAvatarAction},
             {path : 'user-info',element : <UserInfo/>,action: userInfoAction},
             {path : 'user-pwd',element : <UserPassword/>,action: userPwdAction},
             {path : 'art-add',element : <ArticleAdd/>},

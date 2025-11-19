@@ -9,7 +9,7 @@ import Logout from './logout';
 import useAppStore,{setCollapsed,selectCollapsed}from '@/store/app-store';
 import useUserStore,{selectName,selectAvatar} from '@/store/user-store';
 import styles from '@/components/css/header.module.less';
-import RootBreadcrumb from '@/components/root/breadcrumb.tsx'
+import RootBreadcrumb from '@/components/root/breadCrumb';
 
 
 const { Header} = Layout;
