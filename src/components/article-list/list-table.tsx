@@ -7,6 +7,7 @@ import BtnEditAritcle from './btn-edit';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ListOrder from './list-order';
+import BtnPreviewArticle from './btn-preview';
 
 const columns: TableProps<Article>['columns'] = [
   {
@@ -32,6 +33,7 @@ const columns: TableProps<Article>['columns'] = [
         <>
           <BtnEditAritcle id={record.id} />
           <BtnDeleteArticle id={record.id} />
+          <BtnPreviewArticle id={record.id} />
         </>
       )
     }
