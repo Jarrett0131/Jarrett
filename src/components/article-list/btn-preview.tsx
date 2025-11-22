@@ -3,6 +3,7 @@ import { Button, Modal, Spin } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { getArticleApi } from '@/api/article-api';
+import '@/components/article-list/css/article-preview.css';
 
 interface Props {
   id: number;
@@ -39,22 +40,18 @@ const BtnPreviewArticle: FC<Props> = ({ id }) => {
         title="文章预览"
       >
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px 0' }}>
             <Spin />
-          </div>
-        ) : (
-          detail && (
-            <div>
-              <h2>{detail.title}</h2>
-              <p>分类：{detail.cate_name}</p>
-              <p>发布时间：{detail.pub_date}</p>
+        ) : detail && (
+            <div className="reader-container">
+            <h1>{detail.title}</h1>
+            <p style={{ color: '#888', marginBottom: 20 }}>
+                分类：{detail.cate_name} | 发布时间：{detail.pub_date}
+            </p>
 
-              <div
-                style={{ marginTop: 20 }}
+            <div
                 dangerouslySetInnerHTML={{ __html: detail.content }}
-              />
+            />
             </div>
-          )
         )}
       </Modal>
     </>
