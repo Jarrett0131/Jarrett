@@ -78,3 +78,31 @@ type ArticleAddForm = {
 }
 
 type ArticleAddBaseForm = Partial<Pick<ArticleAddForm, 'title' | 'cate_id'>> 
+
+type ArtListQuery = {
+  pagenum: number
+  pagesize: number
+  cate_id: number | string
+  state: string
+}
+
+// 文章的类型
+type Article = {
+  readonly id: number
+  title: string
+  pub_date: string
+  state: '草稿' | '已发布'
+  cate_name: string
+}
+
+// 接口返回的数据的基础类型
+interface BaseResponse<T = unknown> {
+  code: number
+  message: string
+  data?: T
+}
+
+// 文章列表接口返回的数据类型
+interface ArticleListResponse extends BaseResponse<Article[]> {
+  total: number
+}
