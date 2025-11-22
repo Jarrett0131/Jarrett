@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Button ,Modal ,Form, Input} from 'antd';
 import { useState,useEffect } from 'react';
 import { useSubmit,  useActionData} from 'react-router-dom';
-import { useNavLoading, useNavSubmitting } from '@/utils/hooks.tsx';
+import { useNavLoading, useNavSubmitting } from '@/utils/hooks.ts';
 
 const ButtonAdd: FC = () => {
 

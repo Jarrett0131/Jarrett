@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useState ,useEffect} from 'react';
 import { Button, message, Modal,Form, Input} from 'antd';
 import { useSubmit ,useActionData } from 'react-router-dom';
-import { useNavSubmitting ,useNavLoading} from '@/utils/hooks.tsx';
+import { useNavSubmitting ,useNavLoading} from '@/utils/hooks.ts';
 
 
 const ButtonEdit: FC<{ cate: CateItem }> = ({ cate }) => {

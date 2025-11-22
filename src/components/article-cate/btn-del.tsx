@@ -3,7 +3,7 @@ import type { PopconfirmProps } from 'antd';
 import { Button, message,Popconfirm} from 'antd';
 import { useState ,useEffect} from 'react';
 import { useSubmit ,useActionData} from 'react-router-dom';
-import { useNavSubmitting ,useNavLoading } from '@/utils/hooks.tsx';
+import { useNavSubmitting ,useNavLoading } from '@/utils/hooks.ts';
 
 const ButtonDelete: FC<{ id: number }> = ({ id }) => {
 

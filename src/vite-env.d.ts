@@ -66,3 +66,15 @@ type CateItem = {
 
 
 type ArtCateAddForm = Omit<CateItem, 'id'>
+
+//发表文章表单的TS类型
+type ArticleAddForm = {
+  title: string
+  cate_id: string 
+  content: string
+  state: '草稿' | '已发布'
+  cover_img: Blob
+  [x: string]: string | Blob
+}
+
+type ArticleAddBaseForm = Partial<Pick<ArticleAddForm, 'title' | 'cate_id'>> 

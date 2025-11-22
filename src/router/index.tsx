@@ -10,7 +10,7 @@ import Home from '@/views/home/home.tsx';
 import UserAvatar, { action as userAvatarAction } from '@/views/user/user-avatar';
 import UserInfo ,{ action as userInfoAction }from '@/views/user/user-info';
 import UserPassword, { action as userPwdAction } from '@/views/user/user-password'
-import ArticleAdd from '@/views/article/article-add';
+import ArticleAdd, { loader as artAddLoader ,action as artAddAction } from '@/views/article/article-add';
 import ArticleEdit from '@/views/article/article-edit';
 import ArticleCate, { loader as artCateLoader ,action as artCateAction } from '@/views/article/article-cate';
 import ArticleList from '@/views/article/article-list';
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
             {path : 'user-avatar',element : <UserAvatar/>,action: userAvatarAction},
             {path : 'user-info',element : <UserInfo/>,action: userInfoAction},
             {path : 'user-pwd',element : <UserPassword/>,action: userPwdAction},
-            {path : 'art-add',element : <ArticleAdd/>},
+            {path : 'art-add',element : <ArticleAdd/>,loader:artAddLoader,action : artAddAction,shouldRevalidate: () => false},
             {path : 'art-cate',element : <ArticleCate/>,loader: artCateLoader,action: artCateAction},
             {path : 'art-list',element : <ArticleList/>},
             {path :'art-edit/:id',element : <ArticleEdit/>}
