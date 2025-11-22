@@ -9,3 +9,9 @@ export const getArticleListApi = (data: ArtListQuery) => axios.get<null, Article
 // 删除文章
 export const deleteArticleApi = (data: FormData) => axios.delete<null, BaseResponse>('/my/article/info', { params: data }) ;
 
+// 根据 id 获取文章详情
+export const getArticleApi = (id: string) => axios.get<null, BaseResponse<ArticleEditForm>>('/my/article/info', { params: { id } }) ;
+
+// 修改文章内容
+export const putArticleApi = (data: FormData) => axios.put<null, BaseResponse>('/my/article/info', data);
+

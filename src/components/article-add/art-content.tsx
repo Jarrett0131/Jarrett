@@ -60,7 +60,7 @@ const ArticleContent: FC = () => {
   )
 }
 
-const modules = {
+export const modules = { 
   toolbar: [
     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
     ['blockquote', 'code-block'],

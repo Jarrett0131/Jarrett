@@ -77,7 +77,10 @@ type ArticleAddForm = {
   [x: string]: string | Blob
 }
 
+type ArticleEditForm = ArticleAddForm & { readonly id: string } 
+
 type ArticleAddBaseForm = Partial<Pick<ArticleAddForm, 'title' | 'cate_id'>> 
+type ArticleEditBaseForm = ArticleAddBaseForm
 
 type ArtListQuery = {
   pagenum: number

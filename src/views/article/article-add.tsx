@@ -12,24 +12,6 @@ import localforage from '@/utils/localforage';
 import type { StorageValue } from 'zustand/middleware';
 import { ClearOutlined } from '@ant-design/icons';
 
-// 静态的数据源，没必要定义到组件中
-    const stepItems = [
-      {
-        title: '基本信息' ,
-      },
-      {
-        title: '文章封面' ,
-      },
-      {
-        title: '文章内容' ,
-      },
-      {
-        title: 'Done' ,
-      }
-    ]
-
-    
-
     const ArticleAdd: FC = () => {
       const current = useArtAddStore(selectCurrent) ;
       const hasHydrated = useArtAddStore(selectHasHydrated);
@@ -115,5 +97,21 @@ import { ClearOutlined } from '@ant-design/icons';
       clearArticle();
       return { msg }  ;
     }
+
+    // 添加 export 向外按需导出
+    export const stepItems = [
+      {
+        title: '基本信息'
+      },
+      {
+        title: '文章封面'
+      },
+      {
+        title: '文章内容'
+      },
+      {
+        title: 'Done'
+      }
+    ]
 
 export default ArticleAdd ;

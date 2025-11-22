@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Breadcrumb } from 'antd';
-import { useLoaderData, useLocation } from 'react-router-dom';
+import { useLoaderData, useLocation ,matchPath } from 'react-router-dom';
 
 type BreadcrumbItem = {
   title: string
@@ -18,11 +18,15 @@ const RootBreadcrumb: FC = () => {
 }
 
 const resolveBreadcrumbItems = (menus: MenuItem[] | undefined, nowPath: string, breadcrumbItems: BreadcrumbItem[] = []): BreadcrumbItem[] | undefined => {
-  if (!menus) return
+  if (!menus) return ;
   for (const item of menus) {
-    if (item.key === nowPath) {
-      breadcrumbItems.unshift({ title: item.label })
-      return breadcrumbItems
+    // 进行路径的匹配操作：
+    // 如果 matchResult 为 null 说明匹配失败
+    // 如果 matchResult 是一个匹配的结果对象，说明匹配成功
+    const matchResult = matchPath(item.key, nowPath) ;
+     if (matchResult) { // 如果 matchResult 能转为 true，说明匹配成功
+      breadcrumbItems.unshift({ title: item.label }) ;
+      return breadcrumbItems ;
     }
 
     if (item.children) {
