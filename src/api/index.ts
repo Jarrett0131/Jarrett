@@ -1,10 +1,10 @@
-import axios from 'axios'
-import type { AxiosRequestTransformer,AxiosError} from 'axios'
-import config from '../config.json'
-import qs from 'qs'
-import {message} from 'antd'
-import useAppStore from '@/store/app-store'
-import {resetAllStore} from '@/store/resetters.ts'
+import axios from 'axios' ;
+import type { AxiosRequestTransformer,AxiosError} from 'axios' ;
+import config from '../config.json';
+import qs from 'qs';
+import {message} from 'antd';
+import useAppStore from '@/store/app-store';
+import {resetAllStore} from '@/store/resetters.ts';
 
 const instance = axios.create({
     baseURL: config.baseURL,
@@ -34,9 +34,9 @@ instance.interceptors.request.use(
             config.paramsSerializer = {
             serialize(params) {
                 if (params instanceof FormData) {
-                return qs.stringify(Object.fromEntries(params))
+                return qs.stringify(Object.fromEntries(params));
                 } else {
-                return qs.stringify(params)
+                return qs.stringify(params);
                 }
             }
             }
@@ -94,8 +94,6 @@ instance.interceptors.response.use(
                 message.error('网络异常，请稍后重试！');break;
             default:
                 message.error('请求失败，请稍后重试！');break;
-            
-            return Promise.reject({code:1,message:error.message});
         }
     } 
 
@@ -111,4 +109,4 @@ instance.interceptors.response.use(
         return qs.stringify(data);
     }
   }
-export default instance
+export default instance ;
