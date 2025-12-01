@@ -2,10 +2,8 @@ import { FC } from 'react';
 import {Image, Space} from 'antd';
 import styles from '@/views/home/css/home.module.less';
 
-//二维码
-import bili from '@/assets/images/bili.jpg';
-import douyin from '@/assets/images/douyin.jpg';
-import mp from '@/assets/images/mp.jpg';
+import home from '@/assets/images/home.png';
+
 
 import '@/views/home/css/home.module.less';
 
@@ -14,13 +12,19 @@ const fallbackImage = 'data :image/png';
 const Home : FC = () => {
     return (
         <div className={styles.containerHome}>
-            <h1 className={styles.title}>快来关注我吧~</h1>
+            <h1 className={styles.title}>欢迎光临！</h1>
             <br />
-            <Space direction='horizontal' size={50}>
-                <Image width = {300} height ={500} className={styles.qrImage} fallback={fallbackImage} src={douyin} />
-                <Image width = {300} height ={500} className={styles.qrImage} fallback={fallbackImage} src={mp} />
-                <Image width = {300} height ={500} className={styles.qrImage} fallback={fallbackImage} src={bili} />
-            </Space>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <Space direction="horizontal" size={50}>
+                    <Image
+                    width={600}
+                    height={500}
+                    className={styles.qrImage}
+                    fallback={fallbackImage}
+                    src={home}
+                    />
+                </Space>
+                </div>
         </div>
     )
 }
