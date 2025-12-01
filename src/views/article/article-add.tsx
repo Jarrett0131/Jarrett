@@ -11,7 +11,7 @@ import { postArticleApi } from '@/api/article-api.ts';
 import type { ArtAddStore } from '@/store/art-add-store.ts';
 import localforage from '@/utils/localforage';
 import type { StorageValue } from 'zustand/middleware';
-import { ClearOutlined } from '@ant-design/icons';
+import ClearOutlined from '@ant-design/icons/es/icons/ClearOutlined';
 import ArticleResult from '@/components/article-add/art-result';
 
     const ArticleAdd: FC = () => {
@@ -72,7 +72,14 @@ import ArticleResult from '@/components/article-add/art-result';
       const localData = await localforage.getItem<StorageValue<ArtAddStore>>('art-add-store') ;
       const current = localData?.state.current ;
       if (current === ArticleSteps.done) {
+        if (useArtAddStore.getState()._hasHydrated) { 
         resetCurrent() ;
+        }else{
+          // 如果 store 中的数据还没有还原完毕，则延迟 resetCurrent() 函数的执行
+          useArtAddStore.persist.onFinishHydration(() => { 
+            resetCurrent()
+          }) 
+        }
       }
 
       const result = getCateListApi() ;

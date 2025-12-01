@@ -1,18 +1,15 @@
 import { FC } from "react";
 import { useState } from "react";
-import {
-    HomeOutlined,
-    ReadOutlined,
-    AppstoreOutlined,
-    ProfileOutlined,
-    FileAddOutlined,
-    FileTextOutlined,
-    UserOutlined,
-    SolutionOutlined,
-    PictureOutlined,
-    KeyOutlined
-
-} from '@ant-design/icons';
+import HomeOutlined from '@ant-design/icons/es/icons/HomeOutlined';
+import ReadOutlined from '@ant-design/icons/es/icons/ReadOutlined';
+import AppstoreOutlined from '@ant-design/icons/es/icons/AppstoreOutlined';
+import ProfileOutlined from '@ant-design/icons/es/icons/ProfileOutlined';
+import FileAddOutlined from '@ant-design/icons/es/icons/FileAddOutlined';
+import FileTextOutlined from '@ant-design/icons/es/icons/FileTextOutlined';
+import UserOutlined from '@ant-design/icons/es/icons/UserOutlined';
+import SolutionOutlined from '@ant-design/icons/es/icons/SolutionOutlined';
+import PictureOutlined from '@ant-design/icons/es/icons/PictureOutlined';
+import KeyOutlined from '@ant-design/icons/es/icons/KeyOutlined';
 import { Menu } from 'antd';
 import type {MenuProps} from 'antd';
 import { useNavigate, useLocation,useAsyncValue} from "react-router-dom";

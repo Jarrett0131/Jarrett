@@ -1,5 +1,6 @@
 import type { FC } from 'react'
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import LockOutlined from '@ant-design/icons/es/icons/LockOutlined';
+import UserOutlined from '@ant-design/icons/es/icons/UserOutlined';
 import { Button, Form, Input, Space,message} from 'antd';
 import { Link,useSubmit,redirect} from 'react-router-dom';
 import type {ActionFunctionArgs} from 'react-router-dom';

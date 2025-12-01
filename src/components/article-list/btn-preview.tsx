@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Button, Modal, Spin } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
+import EyeOutlined from '@ant-design/icons/es/icons/EyeOutlined';
 import { useState } from 'react';
 import { getArticleApi } from '@/api/article-api';
 import '@/components/article-list/css/article-preview.css';

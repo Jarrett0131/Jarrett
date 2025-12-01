@@ -40,7 +40,8 @@ const columns: TableProps<Article>['columns'] = [
   }
 ]
 
-type Props = TableProps & Partial<{ total: number } & ArtListQuery> 
+type Props = TableProps<Article> & Partial<{ total: number } & ArtListQuery>
+
 
 const ArticleListTable: FC<Props> = (props) => {
     const [, setSearchParams] = useSearchParams();
@@ -72,7 +73,7 @@ const ArticleListTable: FC<Props> = (props) => {
   // 2. 如果原组件上的属性比较简单，可以不进行二次封装，直接借用原组件上的属性
   // 3. 如果原组件上的属性配置比较复杂，则建议进行二次封装
   return (
-  <Table 
+  <Table<Article>
     {...props} 
     columns={columns} 
     pagination={pageOptions} 
