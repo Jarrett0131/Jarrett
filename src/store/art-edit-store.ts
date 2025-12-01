@@ -57,6 +57,7 @@ export const initArticle = async (id: string) => {
       state.article = res.data;
     }
   })
+  return true ;
 };
 
 // 把当前激活的 steps 步骤条的索引派生出去，给组件使用

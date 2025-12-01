@@ -1,6 +1,6 @@
 import type {FC} from 'react';
 import { initArticle } from '@/store/art-edit-store';
-import { useBeforeUnload ,useBlocker } from 'react-router-dom';
+import { useBeforeUnload ,useBlocker,defer} from 'react-router-dom';
 import { useCallback , useEffect ,useRef } from 'react';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 import { stepItems } from './article-add';
@@ -75,15 +75,14 @@ export default ArticleEdit;
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   // 回显文章的数据
-  await initArticle(params.id!);
+  const flag = initArticle(params.id!);
   // 请求文章分类的数据
-  const [err, res] = await to(getCateListApi()) ;
-  if (err) return null;
+  const cates = getCateListApi() ;
 
   //重置current值
   resetCurrent() ;
 
-  return { cates: res.data } ;
+  return defer({cates,flag}) ;
 };
 
 export const action = async () => {

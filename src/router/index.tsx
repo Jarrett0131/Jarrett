@@ -5,7 +5,7 @@ import Root ,{loader as rootLoader}from '@/views/root/root.tsx';
 import Login,{action as loginAction}from '@/views/auth/login.tsx';
 import Reg,{action as regAction}from '@/views/auth/reg.tsx';
 import AuthLayout from '@/views/auth/auth-layout.tsx';
-import AuthRoot from '@/views/auth/auth-root';
+import AuthRoot from '@/views/root/auth-root';
 import Home from '@/views/home/home.tsx';
 import UserAvatar, { action as userAvatarAction } from '@/views/user/user-avatar';
 import UserInfo ,{ action as userInfoAction }from '@/views/user/user-info';

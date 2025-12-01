@@ -1,18 +1,20 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { Breadcrumb } from 'antd';
-import { useLoaderData, useLocation ,matchPath } from 'react-router-dom';
+import {  useLocation ,matchPath,useAsyncValue} from 'react-router-dom';
 
 type BreadcrumbItem = {
   title: string
 }
 
 const RootBreadcrumb: FC = () => {
-  const loaderData = useLoaderData() as { menus: MenuItem[] } | null
-  const location = useLocation()
-  const nowPath = location.pathname === '/' ? '/home' : location.pathname
+  //const loaderData = useLoaderData() as { menus: MenuItem[] } | null;
+  const  [menuResult] =useAsyncValue() as [BaseResponse<MenuItem[]>] ;
+  const menus = useMemo(()=>menuResult.data || [] , [menuResult]);
+  const location = useLocation();
+  const nowPath = location.pathname === '/' ? '/home' : location.pathname ;
 
-  const items = useMemo(() => resolveBreadcrumbItems(loaderData?.menus, nowPath), [loaderData, nowPath]) 
+  const items = useMemo(() => resolveBreadcrumbItems(menus, nowPath), [menus, nowPath])  ;
 
   return <Breadcrumb items={items} />
 }
@@ -36,8 +38,8 @@ const resolveBreadcrumbItems = (menus: MenuItem[] | undefined, nowPath: string, 
       const result = resolveBreadcrumbItems(item.children, nowPath, breadcrumbItems)
       if (result) {
         // 追加父节点
-        breadcrumbItems.unshift({ title: item.label })
-        return breadcrumbItems
+        breadcrumbItems.unshift({ title: item.label });
+        return breadcrumbItems;
       }
     }
   }
@@ -45,4 +47,4 @@ const resolveBreadcrumbItems = (menus: MenuItem[] | undefined, nowPath: string, 
 
 
 
-export default RootBreadcrumb
+export default RootBreadcrumb ;

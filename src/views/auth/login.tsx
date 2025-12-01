@@ -13,6 +13,7 @@ const [searchParams ] = useSearchParams();
 const loginFetcher = useFetcher();
 
     const onFinish = (values: LoginForm) => {
+      if(loginFetcher.state === 'submitting') return ;
         loginFetcher.submit(values, {
             method: 'post',
             action: '/login'
@@ -44,7 +45,11 @@ const loginFetcher = useFetcher();
       </Form.Item>
       <Form.Item>
         <Space direction="vertical"> 
-            <Button block type="primary" htmlType="submit" loading={loginFetcher.state !== 'idle'&&{delay: 200}}>
+            <Button 
+            block type="primary" 
+            htmlType="submit" 
+            loading={loginFetcher.state === 'submitting'&&{delay: 200}}
+            >
                 Login
             </Button>
             <div>

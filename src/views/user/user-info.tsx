@@ -1,24 +1,21 @@
 import type {FC} from 'react';
 import { Button, Space, Form, Input,message} from 'antd';
 import useUserStore, { selectUserInfo} from '@/store/user-store';
-import { useSubmit ,useNavigation} from 'react-router-dom';
+import { useSubmit } from 'react-router-dom';
 import { updateUserInfoApi } from '@/api/user-api.ts';
 import to from 'await-to-js';
 import type { ActionFunctionArgs } from 'react-router-dom';
-
-
-
-
-
+import {useNavSubmitting} from '@/utils/hooks';
 
 const UserInfo: FC = () => {  
 
     const userInfo = useUserStore(selectUserInfo);
     const [formRef] = Form.useForm();
     const submit = useSubmit();
-    const navigation = useNavigation();
+    const submitting = useNavSubmitting('PUT');
 
     const onFinish= (values : UserInfoForm) => {
+      if(submitting) return ;
       submit(values,{method :'PUT'}) ;
     };
 
@@ -33,6 +30,12 @@ const UserInfo: FC = () => {
     onFinish={onFinish}
     autoComplete="off"
   >
+    <Form.Item
+      label="id"
+      name="id"
+    >
+      <Input  readOnly/>
+    </Form.Item>
     <Form.Item
       label="昵称"
       name="nickname"
@@ -49,7 +52,7 @@ const UserInfo: FC = () => {
       label="邮箱"
       name="email"
       rules={[
-        { required: true, message: 'Please input your password!' },
+        { required: true, message: '请输入你的邮箱！' },
         { pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
           message : '请填写正确的邮箱!'}
       ]}
@@ -62,7 +65,7 @@ const UserInfo: FC = () => {
           <Button 
           type="primary" 
           htmlType="submit"
-          loading={navigation.state !== 'idle' && { delay: 200 }} 
+          loading={submitting && { delay: 200 }} 
           >
             保存
           </Button>
@@ -79,13 +82,19 @@ const UserInfo: FC = () => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const fd = await request.formData()
-  const [err] = await to(updateUserInfoApi(fd))
+  const fd = await request.formData() ;
+  const [err,res] = await to(updateUserInfoApi(fd)) ;
 
-  if (err) return null
-  message.success('更新成功！')
-
-  return null
+  if (err) return null ;
+  if(res.code !== 0){
+    //失败
+    message.error('操作失败,请稍后再试!');
+  }else {
+    //成功
+    message.success('更新成功!');
+  }
+ 
+  return null ;
 }
 
 export default UserInfo;

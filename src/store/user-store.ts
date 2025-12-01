@@ -10,7 +10,6 @@ type UserStoreType = typeof initState;
 //默认的初始数据
 const initState = {
     user:{} as User
-
 };
 
 
@@ -37,10 +36,15 @@ export default useUserStore;
 
 //selsectors
 //名字
-export const selectName = (state:UserStoreType) => state.user.username||state.user.nickname;
+export const selectName = (state:UserStoreType) => state.user.nickname||state.user.username;
 //头像
 export const selectAvatar = (state:UserStoreType) => state.user.user_pic;
-
+//获取用户基本信息
+export const selectUserInfo = (state: UserStoreType) => ({
+  id: state.user.id,
+  nickname: state.user.nickname,
+  email: state.user.email
+})
 
 //actions
 //初始化用户基本信息
@@ -57,9 +61,3 @@ export const initUser = async() => {
     
 }
 
-// 派生用户的基本信息
-export const selectUserInfo = (state: UserStoreType) => ({
-  id: state.user.id,
-  nickname: state.user.nickname,
-  email: state.user.email
-})

@@ -3,16 +3,17 @@ import { useRef , useState,useMemo} from 'react';
 import { Space, Button, Avatar,message} from 'antd';
 import useUserStore, { selectAvatar } from '@/store/user-store';
 import type { ActionFunctionArgs} from 'react-router-dom';
-import { useSubmit ,useNavigation} from 'react-router-dom';
+import { useSubmit } from 'react-router-dom';
 import { updateAvatarApi } from '@/api/user-api.ts';
 import to from 'await-to-js';
+import {useNavSubmitting} from '@/utils/hooks';
 
 const UserAvatar: FC = () => {
   const avatar = useUserStore(selectAvatar);
   const iptRef = useRef<HTMLInputElement>(null);
   const [newAvatar, setNewAvatar] = useState('');
   const submit = useSubmit();
-  const navigation = useNavigation();
+  const submitting = useNavSubmitting('PATCH');
 
   // 动态计算，并缓存计算的结果
 const isDisabled = useMemo(() => !newAvatar || newAvatar === avatar, [newAvatar, avatar]);
@@ -23,7 +24,8 @@ const isDisabled = useMemo(() => !newAvatar || newAvatar === avatar, [newAvatar,
 
 
   const saveAvatar = () => {
-      submit({ avatar: newAvatar }, { method: 'PATCH' })
+    if(submitting) return ;
+    submit({ avatar: newAvatar }, { method: 'PATCH' }) ;
     }
 
 
@@ -58,7 +60,7 @@ const isDisabled = useMemo(() => !newAvatar || newAvatar === avatar, [newAvatar,
         <Button 
         type="primary"
         disabled={isDisabled} 
-        loading={navigation.state !== 'idle' && { delay: 200 }} 
+        loading={submitting && { delay: 200 }} 
         onClick={saveAvatar} 
         >
           保存头像

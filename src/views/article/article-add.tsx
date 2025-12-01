@@ -1,4 +1,5 @@
 import { FC ,useEffect, useRef} from 'react' ;
+import { defer } from 'react-router-dom';
 import useArtAddStore, { selectCurrent,ArticleSteps,selectHasHydrated,clearArticle, setCurrent,resetCurrent} from '@/store/art-add-store';
 import { Steps,message,FloatButton, Modal} from 'antd';
 import ArticleBase from '@/components/article-add/art-base';
@@ -11,6 +12,7 @@ import type { ArtAddStore } from '@/store/art-add-store.ts';
 import localforage from '@/utils/localforage';
 import type { StorageValue } from 'zustand/middleware';
 import { ClearOutlined } from '@ant-design/icons';
+import ArticleResult from '@/components/article-add/art-result';
 
     const ArticleAdd: FC = () => {
       const current = useArtAddStore(selectCurrent) ;
@@ -51,6 +53,7 @@ import { ClearOutlined } from '@ant-design/icons';
             {current === ArticleSteps.base && <ArticleBase/> }
             {current === ArticleSteps.cover && <ArticleCover />}
             {current === ArticleSteps.content && <ArticleContent />}
+            {current === ArticleSteps.done && <ArticleResult/>}
           </div>
           {/* 浮动按钮 */}
           <FloatButton type="primary" icon={<ClearOutlined />} tooltip="清空表单" onClick={HandleClean} />
@@ -72,10 +75,9 @@ import { ClearOutlined } from '@ant-design/icons';
         resetCurrent() ;
       }
 
-      const [err, res] = await to(getCateListApi()) ;
+      const result = getCateListApi() ;
 
-      if (err) return null ;
-      return { cates: res.data } ;
+      return defer({result}) ;
     }
 
     export const action = async () => {

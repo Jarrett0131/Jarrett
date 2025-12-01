@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { Button, Form, Input, Space,message,Spin} from 'antd';
 import type { ActionFunctionArgs } from 'react-router-dom';
-import { useSubmit,useActionData,useNavigation} from 'react-router-dom';
+import { useSubmit,useActionData} from 'react-router-dom';
 import { updatePwdApi } from '@/api/user-api.ts';
 import to from 'await-to-js';
+import {useNavSubmitting} from '@/utils/hooks';
 
 const UserPassword: FC = () => {
 
@@ -11,7 +12,7 @@ const UserPassword: FC = () => {
   const [formRef] = Form.useForm();
   const submit = useSubmit();
   const actionData = useActionData() as { result: boolean } | null;
-  const navigation = useNavigation();
+  const submitting = useNavSubmitting('PATCH');
 
   if (actionData?.result) {
     // 密码更新成功了，重置表单
@@ -20,6 +21,7 @@ const UserPassword: FC = () => {
 
 
     const onFinish = (values: ResetPwdForm) => {
+      if(submitting) return ;
       submit(values, { method: 'PATCH' });
     }
 
@@ -33,7 +35,7 @@ const UserPassword: FC = () => {
     onFinish={onFinish} 
     autoComplete="off"
     >
-    <Spin spinning={navigation.state !== 'idle'} delay={200}>
+    <Spin spinning={submitting} delay={200}>
       <Form.Item 
       label="原密码" 
       name="old_pwd" 

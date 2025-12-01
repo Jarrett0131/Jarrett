@@ -1,44 +1,61 @@
 import type {FC} from 'react';
+import { Suspense, useMemo } from 'react';
 import ArticleListSearch from '@/components/article-list/list-search';
 import ArticleListTable from '@/components/article-list/list-table';
-import { Button, Flex, Space,message} from 'antd';
-import { useNavigate, useLoaderData ,redirect,useLocation,LoaderFunctionArgs} from 'react-router-dom';
+import { Button, Flex, Space,Skeleton,message,Spin} from 'antd';
+import { useNavigate, useLoaderData ,redirect,LoaderFunctionArgs,defer,Await,useNavigation} from 'react-router-dom';
 import type { ActionFunctionArgs } from 'react-router-dom';
 import { getCateListApi } from '@/api/cate-api.ts';
 import { getArticleListApi } from '@/api/article-api.ts';
 import to from 'await-to-js';
 import { deleteArticleApi } from '@/api/article-api.ts';
-import { useNavLoading } from '@/utils/hooks.ts';
+import LoaderErrorElement from '@/components/common/loader-error-element';
 
 const ArticleList: FC = () => {  
   const navigate = useNavigate();
-  const loaderData = useLoaderData() as { list: Article[]; total: number; q: ArtListQuery } | null ;
-  const location = useLocation();
-  const loading = useNavLoading('DELETE', location.pathname + location.search);
+  const loaderData = useLoaderData() as { result : Promise<[BaseResponse<CateItem[]>, ArticleListResponse]>; q: ArtListQuery }  ;
+  const navigation = useNavigation();
 
+
+  const navLaoading = useMemo(()=> {
+    if(navigation.state === 'loading' && navigation.location.pathname === '/art-list'){
+      return true;
+    }
+    return false;
+  },[navigation.state,navigation.location?.pathname])
   return (
-     <div >
-        <Space direction="vertical" style={{ display: 'flex' }}>
-        <Flex justify="space-between">
-          {/* 搜索组件 */}
-          <ArticleListSearch />
-          <Button type="primary" onClick={() => navigate('/art-add')}>
-            添加文章
-          </Button>
-        </Flex>
+     <Suspense fallback = {<Skeleton active />}> 
+          <Await resolve={loaderData.result} errorElement ={<LoaderErrorElement/>}>
+            {(result : [BaseResponse<CateItem[]>, ArticleListResponse]) =>{
+              const artListResult = result [1];
+              return (
+                <Spin spinning={navLaoading}>
+                  <Space direction="vertical" style={{ display: 'flex' }}>
+                  <Flex justify="space-between">
+                    {/* 搜索组件 */}
+                    <ArticleListSearch />
+                    <Button type="primary" onClick={() => navigate('/art-add')}>
+                      添加文章
+                    </Button>
+                  </Flex>
 
-        {/* 表格组件 */}
-        <ArticleListTable 
-        dataSource={loaderData?.list} 
-        rowKey="id" 
-        size="middle" 
-        bordered 
-        total={loaderData?.total} 
-        {...loaderData?.q}
-        loading={loading} 
-        />
-      </Space>
-    </div>
+                  {/* 表格组件 */}
+                  <ArticleListTable 
+                  dataSource={artListResult.data} 
+                  rowKey="id" 
+                  size="middle" 
+                  bordered 
+                  total={artListResult.total} 
+                  {...loaderData?.q}
+                  loading={navLaoading} 
+                  />
+                  </Space>
+                </Spin>
+              )
+            }
+            }
+          </Await>
+     </Suspense>
   );
 };
 
@@ -55,20 +72,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     state: searchParams.get('state') || ''
   }  
 
-  // 获取文章分类的列表数据
-  const [err, res] = await to(getCateListApi()) ;
-  if (err) return null ;
+  //两个接口调用并发
+  const result = Promise.all([getCateListApi() , getArticleListApi(q)])
 
-  // 获取分页的文章列表数据
-  const [err2, res2] = await to(getArticleListApi(q)) ;
-  if (err2) return null;
-
-  return { 
-    result: res.data, 
-    q, 
-    list: res2.data ,
-    total: res2.total 
-  }  ;
+  return defer({ q, result } ) ;
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -88,5 +95,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return redirect(url.toString());
   }
 
-  return true
+  return true ;
 }

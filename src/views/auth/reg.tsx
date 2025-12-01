@@ -1,19 +1,22 @@
 import type { FC } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space,message} from 'antd';
-import { Link,useSubmit,redirect,useNavigation} from 'react-router-dom';
+import { Link,useSubmit,redirect} from 'react-router-dom';
 import type {ActionFunctionArgs} from 'react-router-dom';
 import { regApi } from '@/api/auth-api.ts';
 import to from 'await-to-js';
+import {useNavSubmitting} from '@/utils/hooks'
 
 const Reg: FC = () => {
     const submit = useSubmit();
-    const navigation = useNavigation();
+    const submitting = useNavSubmitting('POST') ;
+
     const onFinish = (values: RegForm) => {
+      if(submitting)  return ;
     //参数1：要提交给action的数据
     //参数2：配置对象，用来指定提交的method 和 action地址
     submit(values, { 
-        method: 'post', 
+        method: 'POST', 
         action: '/reg' 
     });
   }
@@ -53,7 +56,11 @@ const Reg: FC = () => {
 
       <Form.Item>
         <Space direction="vertical"> 
-            <Button block type="primary" htmlType="submit" loading={navigation.state !== 'idle'&&{delay: 200}}>
+            <Button 
+            block type="primary" 
+            htmlType="submit" 
+            loading={submitting&&{delay: 200}}
+            >
                 Register
             </Button>
             <div>

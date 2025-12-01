@@ -1,10 +1,20 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { Button, Form, Select } from 'antd';
-import { useLoaderData ,useSearchParams} from 'react-router-dom';
+import { useLoaderData ,useSearchParams,useAsyncValue} from 'react-router-dom';
 
 const ArticleListSearch: FC = () => {
+    //通过异步等待获取到的数据，不要在嵌套的子组件中使用 useLoaderData 来获取
+    //useLoaderData 只能拿到非异步的数据，如 q 
     const [, setSearchParams] = useSearchParams() ;
+    const loaderData = useLoaderData() as {q: ArtListQuery };
+    const [formRef] = Form.useForm() ;
+    const [artCateResult] = useAsyncValue() as [BaseResponse<CateItem[]>];
+    
+    useEffect(() => {
+        formRef.setFieldsValue(loaderData?.q)
+    }, [formRef, loaderData?.q]);
+
     const onFinish = (values: Pick<ArtListQuery, 'cate_id' | 'state'>) => {
         const params = { 
             ...loaderData?.q, 
@@ -13,13 +23,6 @@ const ArticleListSearch: FC = () => {
         } as unknown as { [x: string]: string };
         setSearchParams(params);
     }
-
-    const loaderData = useLoaderData() as null | { result: CateItem[]; q: ArtListQuery };
-    const [formRef] = Form.useForm() ;
-
-    useEffect(() => {
-        formRef.setFieldsValue(loaderData?.q)
-    }, [formRef, loaderData?.q]);
 
     return (
         <Form 
@@ -36,7 +39,7 @@ const ArticleListSearch: FC = () => {
             <Select
             placeholder="请选择"
             style={{ width: 180 }}
-            options={loaderData?.result ? [{ cate_name: '请选择', id: '' }, ...loaderData.result] : []} 
+            options={ [{ cate_name: '请选择', id: '' }, ...(artCateResult.data || [])] } 
             fieldNames={{ label: 'cate_name', value: 'id' }} 
             />
         </Form.Item>

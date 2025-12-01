@@ -15,7 +15,7 @@ import {
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import type {MenuProps} from 'antd';
-import { useLoaderData , useNavigate, useLocation} from "react-router-dom";
+import { useNavigate, useLocation,useAsyncValue} from "react-router-dom";
 
 const iconMap ={
     //键：值
@@ -34,13 +34,15 @@ const iconMap ={
 const rootSubmenuKeys = ['2','3']
 
 const  RootMenu:FC = () => {
-    const data = useLoaderData() as { menus: MenuItem[] } | null;
+    //const data = useLoaderData() as { menus: MenuItem[] } | null;
+    const [menuResult] =useAsyncValue() as [BaseResponse<MenuItem[]>];
+    const menus = menuResult.data || [];
     const navigate = useNavigate();
     const location = useLocation();
 
     const selectedKey = location.pathname === '/' ? '/home' :location.pathname;
 
-    const [openKeys,setOpenkeys] = useState<string[]>([getOpenKey(data?.menus, selectedKey)]);
+    const [openKeys,setOpenkeys] = useState<string[]>([getOpenKey(menus, selectedKey)]);
 
     const onOpenChange:MenuProps['onOpenChange'] = (keys) =>{
         const latestOpenkey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -52,9 +54,7 @@ const  RootMenu:FC = () => {
     }
  
 
-    if(!data) return ;
-
-    const {menus} = data;
+    //const {menus} = data;
     //递归处理每个菜单项的图标
     resolveMenuIcon(menus);
 

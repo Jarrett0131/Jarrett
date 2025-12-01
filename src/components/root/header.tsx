@@ -1,9 +1,5 @@
 import type {FC} from 'react';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
+import {MenuFoldOutlined,MenuUnfoldOutlined,UserOutlined} from '@ant-design/icons';
 import { Button, Layout, Avatar } from 'antd';
 import Logout from './logout';
 import useAppStore,{setCollapsed,selectCollapsed}from '@/store/app-store';
