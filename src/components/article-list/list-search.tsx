@@ -32,17 +32,32 @@ const ArticleListSearch: FC = () => {
         autoComplete="off"
         >
         <Form.Item label="分类" name="cate_id">
-            <Select placeholder="请选择" style={{ width: 180 }} options={[]} />
-        </Form.Item>
-
-        <Form.Item label="状态" name="state">
             <Select
-            placeholder="请选择"
-            style={{ width: 180 }}
-            options={ [{ cate_name: '请选择', id: '' }, ...(artCateResult.data || [])] } 
-            fieldNames={{ label: 'cate_name', value: 'id' }} 
+                placeholder="请选择"
+                style={{ width: 180 }}
+                options={[
+                { label: '请选择', value: '' },
+                ...(artCateResult.data || []).map(c => ({
+                    label: c.cate_name,
+                    value: c.id
+                }))
+                ]}
             />
-        </Form.Item>
+            </Form.Item>
+
+            <Form.Item label="状态" name="state">
+            <Select
+                placeholder="请选择"
+                style={{ width: 180 }}
+                options={[
+                { label: '请选择', value: '' },
+                { label: '已发布', value: '已发布' },
+                { label: '草稿', value: '草稿' }
+
+                ]}
+            />
+            </Form.Item>
+
 
         <Form.Item>
             <Button type="primary" htmlType="submit">

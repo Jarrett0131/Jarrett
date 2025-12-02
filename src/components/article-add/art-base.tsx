@@ -21,9 +21,10 @@ const ArticleBase: FC = () => {
         setCurrent(Move.next);
     }
 
-    const handleValuesChange: FormProps['onValuesChange'] = (changedValues: ArticleAddBaseForm) => { 
-        setArticleBase(changedValues) ;
-    } 
+    const handleValuesChange: FormProps['onValuesChange'] = (_, allValues) => { 
+        setArticleBase(allValues); 
+    }
+
 
   return (
     <>
@@ -40,7 +41,7 @@ const ArticleBase: FC = () => {
           <Input placeholder="请填写文章标题" maxLength={30} showCount allowClear />
         </Form.Item>
 
-        <Suspense fallback={<Form.Item label="文章分类" name="cate_id" rules={[{ required: true, message: '请选择文章分类!' }]}>
+        <Suspense fallback={<Form.Item label="文章分类"  rules={[{ required: true, message: '请选择文章分类!' }]}>
                   <Select
                     placeholder="请选择文章分类"
                     options={[]} 
@@ -51,7 +52,7 @@ const ArticleBase: FC = () => {
             {(result:BaseResponse<CateItem[]>) =>{
               return (
                 <>
-                <Form.Item label="文章分类"  rules={[{ required: true, message: '请选择文章分类!' }]}>
+                <Form.Item label="文章分类" name="cate_id" rules={[{ required: true, message: '请选择文章分类!' }]}>
                   <Select
                     placeholder="请选择文章分类"
                     allowClear
