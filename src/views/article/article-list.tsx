@@ -3,7 +3,7 @@ import { Suspense, useMemo } from 'react';
 import ArticleListSearch from '@/components/article-list/list-search';
 import ArticleListTable from '@/components/article-list/list-table';
 import { Button, Flex, Space,Skeleton,message,Spin} from 'antd';
-import { useNavigate, useLoaderData ,redirect,LoaderFunctionArgs,defer,Await,useNavigation} from 'react-router-dom';
+import { useNavigate, useLoaderData ,redirect,LoaderFunctionArgs,Await,useNavigation} from 'react-router-dom';
 import type { ActionFunctionArgs } from 'react-router-dom';
 import { getCateListApi } from '@/api/cate-api.ts';
 import { getArticleListApi } from '@/api/article-api.ts';
@@ -75,7 +75,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   //两个接口调用并发
   const result = Promise.all([getCateListApi() , getArticleListApi(q)])
 
-  return defer({ q, result } ) ;
+  return { q, result }  ;
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {

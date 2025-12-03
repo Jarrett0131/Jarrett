@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Suspense } from 'react';
 import { getCateListApi,postCateApi,editCateApi,delCateApi} from '@/api/cate-api.ts';
 import to from 'await-to-js';
-import { useLoaderData ,defer,Await} from 'react-router-dom';
+import { useLoaderData ,Await} from 'react-router-dom';
 import { Table ,Space,message } from 'antd';
 import type { TableProps } from 'antd';
 import ButtonAdd from '@/components/article-cate/btn-add';
@@ -73,7 +73,7 @@ export const loader = async () => {
 
   //如果想要减少loader的执行事件，那么异步的Ajax操作，可以不在loader中进行await等待
   //直接把Promise return给组件，让组件自己进行Promise的等待
-  return defer({result });
+  return {result };
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {

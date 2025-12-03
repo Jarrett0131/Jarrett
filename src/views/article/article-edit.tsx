@@ -1,6 +1,6 @@
 import type {FC} from 'react';
 import { initArticle } from '@/store/art-edit-store';
-import { useBeforeUnload ,useBlocker,defer} from 'react-router-dom';
+import { useBeforeUnload ,useBlocker} from 'react-router-dom';
 import { useCallback , useEffect ,useRef } from 'react';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 import { stepItems } from './article-add';
@@ -82,7 +82,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   //重置current值
   resetCurrent() ;
 
-  return defer({cates,flag}) ;
+  return {cates,flag} ;
 };
 
 export const action = async () => {

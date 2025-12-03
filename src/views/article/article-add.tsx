@@ -1,5 +1,4 @@
 import { FC ,useEffect, useRef} from 'react' ;
-import { defer } from 'react-router-dom';
 import useArtAddStore, { selectCurrent,ArticleSteps,selectHasHydrated,clearArticle, setCurrent,resetCurrent} from '@/store/art-add-store';
 import { Steps,message,FloatButton, Modal} from 'antd';
 import ArticleBase from '@/components/article-add/art-base';
@@ -84,7 +83,7 @@ import ArticleResult from '@/components/article-add/art-result';
 
       const result = getCateListApi() ;
 
-      return defer({result}) ;
+      return {result};
     }
 
 
