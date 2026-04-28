@@ -227,6 +227,9 @@ react-article-admin-template/
 
 **问题**: Monorepo 中各包相互引用，容易回到单体项目的 `@/` 引用方式。
 
+**解决思路**: 
+通过 TypeScript 和 Vite 的路径别名（alias）功能，固化各模块的引用边界。TypeScript 的 `paths` 配置用于类型检查和 IDE 智能提示，Vite 的 `alias` 配置用于运行时模块解析。两者必须保持一致，确保编译和运行时的路径统一。
+
 **解决方案**:
 
 ```typescript
@@ -261,6 +264,9 @@ export default defineConfig({
 
 **问题**: React Router loader 可能先于组件守卫执行，导致短暂展示受限页面。
 
+**解决思路**: 
+采用双层鉴权策略：一是在根路由的 loader 中从 Cookie 获取 token 并验证有效性，若无效则直接重定向到登录页；二是在 Axios 拦截器中处理服务端返回的 401 响应，清除本地状态并跳转。loader 负责服务端渲染前的初始校验，拦截器负责接口调用时的动态校验，两者互补确保鉴权无死角。
+
 **解决方案**:
 
 ```typescript
@@ -289,6 +295,9 @@ instance.interceptors.response.use(
 ### 3. token 过期处理
 
 **问题**: token 过期后用户仍在操作，需要平滑处理。
+
+**解决思路**: 
+在请求发送前和响应返回后双重检查 token 有效性。请求前检查适合在发起新请求时提前拦截，避免无效请求；响应后检查适合处理服务端主动过期的情况（如 JWT exp 字段）。通过在 Axios 拦截器中统一处理，结合 Zustand 状态管理，在 token 过期时清理所有状态并引导用户重新登录。
 
 **解决方案**:
 
@@ -319,6 +328,9 @@ instance.interceptors.request.use((config) => {
 
 **问题**: 新 JWT 支持权限字段，旧 token 没有权限字段时需保持兼容。
 
+**解决思路**: 
+在权限解析函数中采用兼容模式，支持多种权限字段格式。新版 JWT 使用 `permissions` 数组字段，旧版可能使用 `scope` 空格分隔字符串。通过逻辑或运算尝试读取不同字段，只要任一字段存在就返回权限列表，确保升级 JWT 格式后不会阻断已有用户的正常使用。
+
 **解决方案**:
 
 ```typescript
@@ -333,6 +345,9 @@ export const getJwtPermissions = (token: string): string[] => {
 ### 5. 大文件上传可靠性
 
 **问题**: 大文件上传中途失败需要支持断点续传。
+
+**解决思路**: 
+采用「Hash 标识 + 分片状态」双重机制保证上传可靠性。首先使用 SHA-256 计算文件唯一标识（Hash），作为文件的全局唯一 ID；其次将文件切分为固定大小的分片（默认 2MB），逐个上传并记录已成功的分片序号；最后通过服务端接口验证文件是否已完整上传（秒传）或部分上传（断点续传）。关键在于 checkpoint 持久化——将已上传分片列表存入 localStorage，刷新页面后读取并跳过已上传分片。
 
 **解决方案**:
 
@@ -377,6 +392,9 @@ const saveCheckpoint = (hash: string, uploadedChunks: number[]) => {
 ### 6. 表单草稿恢复
 
 **问题**: 文章发布流程较长，刷新后数据丢失。
+
+**解决思路**: 
+利用 Zustand 的 `persist` 中间件将状态自动持久化到存储层。默认使用 localStorage，但 localStorage 有容量限制（通常 5MB），因此自定义存储适配器使用 localforage（基于 IndexedDB）以支持更大数据量。关键在于 `_hasHydrated` 标志位——因为 persist 是异步加载数据，组件可能在状态恢复前就渲染，导致读取到空值。通过在状态恢复完成后设置标志位，组件等待标志位为 true 时才渲染，确保数据已就绪。
 
 **解决方案**:
 
