@@ -12,7 +12,10 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': [
       'warn',
-      { allowConstantExport: true },
+      {
+        allowConstantExport: true,
+        allowExportNames: ['action', 'loader', 'modules', 'shouldRevalidate', 'stepItems'],
+      },
     ],
   },
 }

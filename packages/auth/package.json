@@ -1,0 +1,9 @@
+{
+  "name": "@article-admin/auth",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@article-admin/shared": "file:../shared"
+  }
+}

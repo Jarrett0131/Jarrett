@@ -9,10 +9,10 @@ const devConfig: UserConfig = {
     react(),
     createHtmlPlugin({ 
       minify: false, 
-      entry: 'src/main.tsx', 
+      entry: 'apps/admin/src/main.tsx', 
       inject: { 
         data: { 
-          title: 'dev-文章后台管理系统', 
+          title: 'dev-厦大数字工坊', 
           injectScript: '' // 开发阶段不需要向网页中注入任何 script 标签
         } 
       } 
@@ -21,7 +21,11 @@ const devConfig: UserConfig = {
   resolve: {
     alias: {
       // 配置 @ 的路径别名
-      '@': join(__dirname, './src/')
+      '@admin': join(__dirname, './apps/admin/src/'),
+      '@shared': join(__dirname, './packages/shared/src/'),
+      '@article': join(__dirname, './packages/article/src/'),
+      '@auth': join(__dirname, './packages/auth/src/'),
+      '@user': join(__dirname, './packages/user/src/')
     }
   },
   css: {

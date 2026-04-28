@@ -1,0 +1,12 @@
+{
+  "name": "@article-admin/admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@article-admin/article": "file:../../packages/article",
+    "@article-admin/auth": "file:../../packages/auth",
+    "@article-admin/shared": "file:../../packages/shared",
+    "@article-admin/user": "file:../../packages/user"
+  }
+}
